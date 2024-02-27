@@ -163,10 +163,6 @@ public class IAS {
                 isValidInstruction = true;
             }
         }
-
-        if(!isValidInstruction){
-            //System.out.printf("ERROR! Invalid Instruction: %s, at: %s\n", contents[1], contents[0]);
-        }
         return isValidInstruction;
     }
     public String digitsOnly(String whatever){
