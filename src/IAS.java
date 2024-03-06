@@ -86,7 +86,7 @@ public class IAS {
                 break;
             case("MUL"):
                 memLocation = digitsOnly(contents[2]);
-                MQ = Accumulator * Double.parseDouble(Memory.get(memLocation));
+                MQ = MQ * Double.parseDouble(Memory.get(memLocation));
                 Accumulator = MQ;
                 currentInstructionIndex++;
                 break;
