@@ -18,15 +18,22 @@ public class IASGUI extends JFrame implements ActionListener {
     JLabel accLabel = new JLabel("Accumulator Register");
     JLabel mqLabel = new JLabel("MQ Register");
     JLabel instructionLabel = new JLabel("Current Instruction");
-
+    JLabel memPeekLabel = new JLabel("Memory Peek");
+    JLabel memAddressLabel = new JLabel("Address");
+    JLabel memDataLabel = new JLabel("Data");
+    
     JTextField accTField = new JTextField();
     JTextField mqTField = new JTextField();
     JTextField instructionTField = new JTextField();
+    JTextField memoryAddressField = new JTextField();
+    JTextField memoryDataField = new JTextField();
+
+
 
     JButton runButton = new JButton("Run");
     JButton resetButton = new JButton("Reset");
     JButton stepButton = new JButton("Step");
-
+    JButton peekButton = new JButton("Peek");
 
     public IASGUI() throws FileNotFoundException {
         ias = new IAS();
@@ -39,7 +46,7 @@ public class IASGUI extends JFrame implements ActionListener {
         window.setResizable(true);
         window.setLayout(new BorderLayout());
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        window.setSize(600, 300);
+        window.setSize(600, 600);
         window.show();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -50,15 +57,21 @@ public class IASGUI extends JFrame implements ActionListener {
         window.add(accLabel);
         window.add(mqLabel);
         window.add(instructionLabel);
-
+        window.add(memPeekLabel);
+        window.add(memAddressLabel);
+        window.add(memDataLabel);
 
         window.add(accTField);
         window.add(mqTField);
         window.add(instructionTField);
 
+        window.add(memoryAddressField);
+        window.add(memoryDataField);
+
         //window.add(runButton);
         window.add(stepButton);
         window.add(resetButton);
+        window.add(peekButton);
         window.setResizable(false);
         //window.add(stepButton);
 
@@ -70,22 +83,30 @@ public class IASGUI extends JFrame implements ActionListener {
         accLabel.setBounds(65,170,150,25);
         mqLabel.setBounds(250,170,150, 25);
         instructionLabel.setBounds(400, 170,150,25);
+        memPeekLabel.setBounds(150,290,150,25);
+        memAddressLabel.setBounds(65,320,150,25);
+        memDataLabel.setBounds(215,320,150,25);
 
         accTField.setBounds(50,200,150,25);
         mqTField.setBounds(212,200,150,25);
         instructionTField.setBounds(375,200,150,25);
+        memoryAddressField.setBounds(50,350,150,25);
+        memoryDataField.setBounds(212,350,150,25);
+
         accTField.setEditable(false);
         mqTField.setEditable(false);
         instructionTField.setEditable(false);
+        memoryDataField.setEditable(false);
 
        // runButton.setBounds(50,50,75,25);
         stepButton.setBounds(150,50,75,25);
         resetButton.setBounds(250, 50, 75,25);
-
+        peekButton.setBounds(150,400,75, 25);
 
         runButton.addActionListener(this);
         resetButton.addActionListener(this);
         stepButton.addActionListener(this);
+        peekButton.addActionListener(this);
 
         //validating each instruction
         String line = null;
@@ -122,6 +143,7 @@ public class IASGUI extends JFrame implements ActionListener {
             ias.MQ = 0;
             ias.doneFlag = false;
             ias.currentInstructionIndex = 0;
+            memoryDataField.setText("");
             updateRegisters(ias.instructionsList.get(ias.currentInstructionIndex));
         }else if(e.getSource() == stepButton){
             if(ias.doneFlag){
@@ -137,6 +159,10 @@ public class IASGUI extends JFrame implements ActionListener {
                 }
             }
 
+        }else if(e.getSource() == peekButton){
+            System.out.println(memoryAddressField.getText());
+            System.out.println(ias.Memory.get(memoryAddressField.getText()));
+            memoryDataField.setText(ias.Memory.get(memoryAddressField.getText()));
         }
     }
     public void updateRegisters(String instruction){
